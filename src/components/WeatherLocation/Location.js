@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pctDecChars } from 'uri-js';
 
 const Location = ({ city }) => {
     // console.log(props);

@@ -7,7 +7,7 @@ import {
     RAIN,
     SNOW,
     WINDY,
-} from './../constants/weathers';
+} from './../../../constants/weathers';
 import PropTypes from 'prop-types';
 
 const icons = {
