@@ -3,31 +3,17 @@ import Location from './Location';
 import WeatherData from './WeatherData';
 import transformWeather from '../../services/transformWeather';
 import {api_weather} from '../../constants/api_url';
-import {
-    // CLOUD,
-    // CLOUDY,
-    SUN,
-    /* RAIN,
-    SNOW,
-    WINDY, */
-} from '../../constants/weathers';
 
 import './styles.css';
-
-const data = {
-    temperature: 6,
-    weatherState: SUN,
-    humidity: 10,
-    wind: '10 m/s',
-}
 
 class WeatherLocation extends Component {
 
     constructor() {
+        console.log('constructor');
         super();
         this.state = {
             city: 'Buenos Aires',
-            data: data
+            data: null
         }
     }
 
@@ -44,13 +30,34 @@ class WeatherLocation extends Component {
             });
         });
     }
+
+    componentWillMount() {
+        console.log('UNSAFE componentWillMount');
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        console.log('UNSAFE componentWillUpdate');
+    }
+
+    componentDidMount() {
+        console.log('componentDidMount');
+        this.handleUpdateClick();
+    }
+
+    componentDidUpdate() {
+        console.log('componentDidUpdate');
+    }
+
     render() {
+        console.log('render');
         const { city, data } = this.state;
         return (
             <div className="weatherLocationCont">
                 <Location city={city}></Location>
-                <WeatherData data={data}></WeatherData>
-                <button onClick={this.handleUpdateClick}>Actualizar</button>
+                { data ?
+                    <WeatherData data={data}></WeatherData> :
+                    'Cargando..'
+                }
             </div>
         );
     }
