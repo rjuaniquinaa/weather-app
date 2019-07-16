@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Location from './Location';
 import WeatherData from './WeatherData';
+import convert from 'convert-units';
+
 import {
-    CLOUD,
+    // CLOUD,
     // CLOUDY,
     SUN,
     /* RAIN,
@@ -24,13 +26,6 @@ const data = {
     wind: '10 m/s',
 }
 
-const data2 = {
-    temperature: 14,
-    weatherState: CLOUD,
-    humidity: 70,
-    wind: '6 m/s',
-}
-
 class WeatherLocation extends Component {
 
     constructor() {
@@ -41,17 +36,41 @@ class WeatherLocation extends Component {
         }
     }
 
+    getTemp = kelvin => {
+        return Number(convert(kelvin).from('K').to('C').toFixed(2));
+    }
+
+    getWeatherState = weatherData => {
+        return SUN;
+    }
+
+    getData = weatherData => {
+        const { humidity, temp } = weatherData.main;
+        const { speed } = weatherData.wind;
+        const weatherState = this.getWeatherState(weatherData);
+        const temperature = this.getTemp(temp);
+
+        const data = {
+            humidity,
+            temperature,
+            weatherState,
+            wind: `${speed} m/s`,
+        };
+        return data;
+    }
+
     handleUpdateClick = () => {
         console.log('Actualizado');
         fetch(api_weather).then( response => {
             return response.json();
         }).then( data => {
-            console.log(data);
+            const newWeather = this.getData(data);
+            console.log(newWeather);
             debugger;
-        });
-        this.setState({
-            city: 'Catamarca',
-            data: data2
+            this.setState({
+                city: 'Catamarca',
+                data: newWeather
+            });
         });
     }
     render() {
