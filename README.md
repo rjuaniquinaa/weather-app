@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## DOCKER
+docker build -t weather .
+docker run -v ${PWD}:/app -v /app/node_modules -p 3001:3000 --rm weather
+
+localhost:3001
+
 ## Available Scripts
 
 In the project directory, you can run:
